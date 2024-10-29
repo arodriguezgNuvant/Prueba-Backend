@@ -40,12 +40,6 @@ export class PokemonsController {
     return this.pokemonsService.getAll(offset, limit);
   }
 
-  // @Get('getAll')
-  // async getAllP(){
-  //   console.log('hola')
-  //   return await this.pokemonsService.getAllPokemon();
-  // }
-
   @Get('topRated/:top')
   getTopRated(@Param('top', ParseIntPipe) top: number) {
     return this.pokemonsService.getTopRated(top);
@@ -55,7 +49,6 @@ export class PokemonsController {
   ratePokemon(@Body() ratePokemon: RatePokemonDto) {
     return this.pokemonsService.rate(ratePokemon);
   }
-
 
   @Post('/populateDB')
   populateDB() { 

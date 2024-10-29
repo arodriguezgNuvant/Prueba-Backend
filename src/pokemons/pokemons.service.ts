@@ -18,21 +18,6 @@ import { Repository } from 'typeorm';
 export class PokemonsService {
   private readonly apiUrl = 'https://pokeapi.co/api/v2/pokemon/';
 
-  private puntuations: RatePokemonDto[] = [
-    {
-      id: 1,
-      puntuation: 5,
-    },
-    {
-      id: 2,
-      puntuation: 4,
-    },
-    {
-      id: 3,
-      puntuation: 3,
-    },
-  ];
-
   private readonly logger = new Logger('PokemonsService');
 
   constructor(
@@ -85,10 +70,6 @@ export class PokemonsService {
       .limit(top)
       .offset(0)
       .getMany();
-    // if (top > 0) {
-    //   const data: RatePokemonDto[] = this.sortRated();
-    //   return data.slice(0, top);
-    // }
     pokemons = queryBuilder;
     return pokemons;
   }
@@ -150,7 +131,6 @@ export class PokemonsService {
     );
   }
 
-  
   private async create(createPokemonDto: CreatePokemonDto) {
     const pokemon = this.pokemonRepository.create(createPokemonDto);
     await this.pokemonRepository.save(pokemon);
@@ -175,11 +155,6 @@ export class PokemonsService {
         pokemonList.map(async (pokemon) => {
           return this.getOne(pokemon.name);
         }),
-        // pokemonList.map(async (pokemon) => {
-        //   const pokemonResponse = await fetch(pokemon.url);
-        //   const { id, name, base_experience } = await pokemonResponse.json();
-        //   return { id, name, base_experience };
-        // }),
       );
       return pokemonDetails;
       
@@ -188,14 +163,6 @@ export class PokemonsService {
       throw new Error('Error getting details');
     }
   }
-  
-  // private sortRated() {
-  //   const result: RatePokemonDto[] = this.puntuations.sort(
-  //     (a, b) => b.puntuation - a.puntuation,
-  //   );
-  //   console.log(result);
-  //   return result;
-  // }
 
   private handleDBExceptions(error: any) {
     if (error.code === '23505') throw new BadRequestException(error.detail);
